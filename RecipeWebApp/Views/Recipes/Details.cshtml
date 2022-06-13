@@ -1,0 +1,10 @@
+﻿@model Models.Recipe
+
+<h1>Details</h1>
+
+<div>
+	<p>@Html.DisplayFor(model => model.Title)</p>
+	<img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:400px;height:400px" />
+	<p>@Html.DisplayFor(model => model.Description)</p>
+	<p>@Html.DisplayFor(model => model.CreatedAt)</p>
+</div>

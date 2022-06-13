@@ -10,11 +10,10 @@ namespace RecipeWebApp.Services.RecipeService
         {
             this.applicationDbContext = applicationDbContext;
         }
-        public RecipeService Create(Recipe recipe)
+        public void Create(Recipe recipe)
         {
-            Recipe recipeDb = applicationDbContext.Recipes.Add(recipe).Entity;
-            applicationDbContext.SaveChanges();
-            return recipeDb;
+            this.applicationDbContext.Recipes.Add(recipe);
+            this.applicationDbContext.SaveChanges();
         }
     }
 }

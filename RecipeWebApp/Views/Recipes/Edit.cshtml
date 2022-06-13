@@ -1,0 +1,13 @@
+﻿@model Models.Recipe
+
+<h1>Edit</h1>
+
+<form asp-action="Edit" method="POST">
+	<p>Title:</p>
+	<input asp-for="Title" class="form-control" />
+	<p>ImageUrl:</p>
+	<input asp-for="ImageUrl" class="form-control" />
+	<p>Description:</p>
+	<input asp-for="Description" class="form-control" />
+	<button type="submit" class="btn btn-primary">Edit</button>
+</form>

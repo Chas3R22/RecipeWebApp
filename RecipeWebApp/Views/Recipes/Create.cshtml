@@ -1,0 +1,12 @@
+﻿@model Models.Recipe
+
+<h1>Create</h1>
+<form asp-controller="Recipes" asp-action="Create" method="POST">
+    <p>Title:</p>
+    <input class="form-control" asp-for="@Model.Title" />
+    <p>Image:</p>
+    <input class="form-control" asp-for="@Model.ImageUrl" />
+    <p>Description:</p>
+    <input class="form-control" asp-for="@Model.Description" />
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
