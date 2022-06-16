@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RecipeWebApp.Data;
 using RecipeWebApp.Models;
 using RecipeWebApp.Services.RecipeService;
 
 namespace RecipeWebApp.Controllers
 {
+    [Authorize]
     public class RecipesController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
@@ -14,13 +16,15 @@ namespace RecipeWebApp.Controllers
             this.applicationDbContext = applicationDbContext;
             this.recipeService = recipeService;
         }
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         { 
             List<Recipe> recipes = this.applicationDbContext.Recipes.ToList();
-            return View(); 
+            return View(recipes); 
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Details(Guid id)
         {
@@ -49,7 +53,7 @@ namespace RecipeWebApp.Controllers
             return View(recipe);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Edit(Recipe recipe)
         {
             this.applicationDbContext.Update(recipe);
