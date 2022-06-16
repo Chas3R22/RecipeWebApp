@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RecipeWebApp.Data;
 using RecipeWebApp.Services.RecipeService;
+using RecipeWebApp.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
