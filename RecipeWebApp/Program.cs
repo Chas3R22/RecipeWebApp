@@ -26,7 +26,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    DbInitializer.Seed(dbContext);
+    DbInitializer.RoleSeed(dbContext);
+    DbInitializer.AdminSeed(scope.ServiceProvider.GetRequiredService<UserManager<User>>());
 }
 
 // Configure the HTTP request pipeline.

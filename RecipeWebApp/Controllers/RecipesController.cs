@@ -34,7 +34,7 @@ namespace RecipeWebApp.Controllers
                     UserId = r.UserId,
                     User = new User()
                     {
-                        Id = r.User.Id,
+                        Id = r.UserId,
                         UserName = r.User.UserName
                     }
                 })
@@ -57,10 +57,21 @@ namespace RecipeWebApp.Controllers
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
+            string userId = userManager.GetUserId(User);
             var recipe = this.applicationDbContext.Recipes.Find(id);
-            this.applicationDbContext.Recipes.Remove(recipe);
-            this.applicationDbContext.SaveChanges();
-            return RedirectToAction(nameof(this.Index));
+            if (!(recipe.UserId == userId || User.IsInRole("Admin")))
+            {
+                return RedirectToAction(nameof(this.Index));
+            }
+            else if (recipe == null)
+            {
+                return RedirectToAction(nameof(this.Index));
+            }
+            else
+            {
+                this.recipeService.Delete(id);
+                return RedirectToAction(nameof(this.Index));
+            }
         }
 
         [HttpGet]
@@ -69,11 +80,11 @@ namespace RecipeWebApp.Controllers
             string userId = userManager.GetUserId(User);
             var recipe = this.applicationDbContext.Recipes.Find(id);
 
-            if(recipe.UserId != userId)
+            if(recipe == null)
             {
                 return RedirectToAction(nameof(this.Index));
             }
-            else if (recipe == null)
+            else if (!(recipe.UserId == userId || User.IsInRole("Admin")))
             {
                 return RedirectToAction(nameof(this.Index));
             }
@@ -87,8 +98,7 @@ namespace RecipeWebApp.Controllers
         [HttpPost]
         public IActionResult Edit(Recipe recipe)
         {
-            this.applicationDbContext.Update(recipe);
-            this.applicationDbContext.SaveChanges();
+            this.recipeService.Update(recipe);
             return RedirectToAction(nameof(this.Index));
         }
 

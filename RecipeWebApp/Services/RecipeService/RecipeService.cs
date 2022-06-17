@@ -16,5 +16,16 @@ namespace RecipeWebApp.Services.RecipeService
             this.applicationDbContext.Recipes.Add(recipe);
             this.applicationDbContext.SaveChanges();
         }
+        public void Update(Recipe recipe)
+        {
+            this.applicationDbContext.Recipes.Update(recipe);
+            this.applicationDbContext.SaveChanges();
+        }
+        public void Delete(Guid id)
+        {
+            var recipe = this.applicationDbContext.Recipes.Find(id);
+            this.applicationDbContext.Recipes.Remove(recipe);
+            this.applicationDbContext.SaveChanges();
+        }
     }
 }

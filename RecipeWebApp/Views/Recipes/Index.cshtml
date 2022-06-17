@@ -8,13 +8,13 @@
 @foreach(var recipe in Model)
 {
 	<div>
-		<p>@Html.DisplayFor(modelItem => recipe.Title)</p>
+		<p>Title: @Html.DisplayFor(modelItem => recipe.Title)</p>
 		<img src="@Url.Content(recipe.ImageUrl)" alt="Image" style="width:250px;height:250px" />
 		<p>Made by: @Html.DisplayFor(modelItem => recipe.User.UserName)</p>
 		<a asp-action="Details" asp-route-id="@recipe.Id">
 			<button class="btn btn-primary">Details</button>
 		</a>
-		@if (UserManager.GetUserId(User) == recipe.User.Id)
+		@if (UserManager.GetUserId(User) == recipe.User.Id || User.IsInRole("Admin"))
 		{
 			<a asp-action="Edit" asp-route-id="@recipe.Id">
 				<button class="btn btn-success">Edit</button>
