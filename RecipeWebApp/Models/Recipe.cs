@@ -6,7 +6,7 @@ namespace RecipeWebApp.Models
     {
         public Recipe()
         {
-            this.CreatedAt = DateTime.UtcNow;
+            this.CreatedAt = DateTime.Now;
         }
 
         [Key]

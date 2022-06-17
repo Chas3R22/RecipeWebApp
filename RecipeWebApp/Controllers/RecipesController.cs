@@ -75,9 +75,8 @@ namespace RecipeWebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(Guid id, string userId)
         {
-            string userId = userManager.GetUserId(User);
             var recipe = this.applicationDbContext.Recipes.Find(id);
 
             if(recipe == null)
