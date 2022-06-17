@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RecipeWebApp.Data;
 using RecipeWebApp.Services.RecipeService;
 using RecipeWebApp.Data.Seed;
+using RecipeWebApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddDefaultIdentity<User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
