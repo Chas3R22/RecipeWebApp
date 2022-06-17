@@ -217,12 +217,12 @@ namespace RecipeWebApp.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "41fe2487-6223-40d2-890b-8b4d43e0d0e9", "e332bbbf-7064-46c3-9fae-454f5159ba79", "User", "USER" });
+                values: new object[] { "77c5322b-16a0-497a-b392-fef4727f16d3", "d495409c-5ed6-443c-a75a-2c1dfeae139d", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b22ddeeb-ae63-42db-9e07-55856dd29b98", "1fd285e6-e690-41f7-bcf5-7a926d1e6083", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "83023e92-7d25-4c77-840d-cc4345d333fa", "53dc4e4e-d576-4275-b1a0-019380142af2", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

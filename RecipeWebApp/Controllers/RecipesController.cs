@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RecipeWebApp.Data;
 using RecipeWebApp.Models;
 using RecipeWebApp.Services.RecipeService;
@@ -11,16 +13,32 @@ namespace RecipeWebApp.Controllers
     {
         private readonly ApplicationDbContext applicationDbContext;
         private readonly IRecipeService recipeService;
-        public RecipesController(ApplicationDbContext applicationDbContext, IRecipeService recipeService)
+        private readonly UserManager<User> userManager;
+        public RecipesController(ApplicationDbContext applicationDbContext, IRecipeService recipeService, UserManager<User> userManager)
         {
             this.applicationDbContext = applicationDbContext;
             this.recipeService = recipeService;
+            this.userManager = userManager;
         }
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         { 
-            List<Recipe> recipes = this.applicationDbContext.Recipes.ToList();
+            List<Recipe> recipes = this.applicationDbContext.Recipes
+                .Include(r => r.User)
+                .Select(r => new Recipe()
+                {
+                    Id = r.Id,
+                    Title = r.Title,
+                    ImageUrl = r.ImageUrl,
+                    UserId = r.UserId,
+                    User = new User()
+                    {
+                        Id = r.User.Id,
+                        UserName = r.User.UserName
+                    }
+                })
+                .ToList();
             return View(recipes); 
         }
 
@@ -48,9 +66,22 @@ namespace RecipeWebApp.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
+            string userId = userManager.GetUserId(User);
             var recipe = this.applicationDbContext.Recipes.Find(id);
 
-            return View(recipe);
+            if(recipe.UserId != userId)
+            {
+                return RedirectToAction(nameof(this.Index));
+            }
+            else if (recipe == null)
+            {
+                return RedirectToAction(nameof(this.Index));
+            }
+            else
+            {
+                return View(recipe);
+            }
+            
         }
 
         [HttpPost]
@@ -70,7 +101,8 @@ namespace RecipeWebApp.Controllers
         [HttpPost]
         public IActionResult Create(Recipe recipe)
         {
-            this.recipeService.Create(recipe);
+            string userId = userManager.GetUserId(User);
+            this.recipeService.Create(recipe, userId);
             return RedirectToAction(nameof(this.Index));
         }
     }

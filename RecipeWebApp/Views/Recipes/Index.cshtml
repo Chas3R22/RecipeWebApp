@@ -1,4 +1,7 @@
 ﻿@model IList<Recipe>
+@using Microsoft.AspNetCore.Identity
+@using RecipeWebApp.Models
+@inject UserManager<User> UserManager
 
 <h1>All Recipes</h1>
 
@@ -7,14 +10,18 @@
 	<div>
 		<p>@Html.DisplayFor(modelItem => recipe.Title)</p>
 		<img src="@Url.Content(recipe.ImageUrl)" alt="Image" style="width:250px;height:250px" />
+		<p>Made by: @Html.DisplayFor(modelItem => recipe.User.UserName)</p>
 		<a asp-action="Details" asp-route-id="@recipe.Id">
 			<button class="btn btn-primary">Details</button>
 		</a>
-		<a asp-action="Edit" asp-route-id="@recipe.Id">
-			<button class="btn btn-success">Edit</button>
-		</a>
-		<a asp-action="Delete" asp-route-id="@recipe.Id">
-			<button class="btn btn-danger">Delete</button>
-		</a>
+		@if (UserManager.GetUserId(User) == recipe.User.Id)
+		{
+			<a asp-action="Edit" asp-route-id="@recipe.Id">
+				<button class="btn btn-success">Edit</button>
+			</a>
+			<a asp-action="Delete" asp-route-id="@recipe.Id">
+				<button class="btn btn-danger">Delete</button>
+			</a>
+		}
 	</div>
 }

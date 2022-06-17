@@ -4,6 +4,6 @@ namespace RecipeWebApp.Services.RecipeService
 {
     public interface IRecipeService
     {
-        void Create(Recipe recipe);
+        void Create(Recipe recipe, string userId);
     }
 }

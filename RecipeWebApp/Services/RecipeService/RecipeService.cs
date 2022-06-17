@@ -10,8 +10,9 @@ namespace RecipeWebApp.Services.RecipeService
         {
             this.applicationDbContext = applicationDbContext;
         }
-        public void Create(Recipe recipe)
+        public void Create(Recipe recipe,string userId)
         {
+            recipe.UserId = userId;
             this.applicationDbContext.Recipes.Add(recipe);
             this.applicationDbContext.SaveChanges();
         }
